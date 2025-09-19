@@ -196,6 +196,37 @@ body {
   box-shadow: 0 6px 15px rgba(52, 211, 153, 0.5);
 }
 
+/* Página de Curso */
+.course-content h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.course-step {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--card-shadow);
+  margin-top: 20px;
+}
+
+.optimized-image {
+  max-width: 30%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 1rem;
+  margin: 1rem auto; /* auto centraliza horizontalmente */
+  display: block; /* transforma img em bloco */
+}
+
+.navigation-buttons {
+  text-align: center;
+  margin-top: 4rem;
+}
+
 /* Rodapé */
 .main-footer {
   text-align: center;
