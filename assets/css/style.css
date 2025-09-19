@@ -1,0 +1,261 @@
+/* Importação da Fonte */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+/* Variáveis de Cores (Tema Claro) */
+:root {
+  --primary-color: #1e3a8a;
+  --accent-color: #34d399; 
+  --text-color: #111827; 
+  --secondary-text-color: #d1d5db; 
+  --background-color: #f9fafb; 
+  --card-background: #ffffff; 
+  --border-color: #e5e7eb;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --card-hover-shadow: 0 7px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Tema Escuro */
+.dark-theme {
+  --primary-color: #34d399; 
+  --accent-color: #1e3a8a; 
+  --text-color: #d1d5db; 
+  --secondary-text-color: #9ca3af;
+  --background-color: #111827; 
+  --card-background: #1f2937; 
+  --border-color: #374151;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 7px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Reset Básico e Estilos Globais */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Cabeçalho e Navegação */
+.main-header {
+  background-color: var(--card-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 5%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand h1 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+/* Container do menu desktop */
+.nav-menu {
+  display: flex;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--primary-color);
+}
+
+/* Controles da direita (tema e hambúrguer) */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Estilos do Botão de Tema com Ícones */
+.theme-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Estilos do Menu Hambúrguer */
+.hamburger-button {
+  display: none; 
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 24px;
+  position: relative;
+  z-index: 1001; 
+}
+
+.hamburger-line {
+  background-color: var(--text-color);
+  border-radius: 3px;
+  display: block;
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger-line:nth-child(1) {
+  top: 0;
+}
+.hamburger-line:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.hamburger-line:nth-child(3) {
+  bottom: 0;
+}
+
+/* Animação do botão para "X" quando ativo */
+.hamburger-button.is-active .hamburger-line:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+.hamburger-button.is-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-button.is-active .hamburger-line:nth-child(3) {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
+/* Conteúdo Principal */
+.main-content {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* Seção Hero (Página Inicial) */
+.hero-section {
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.hero-text h2 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 0.8rem 2.5rem;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 700;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(52, 211, 153, 0.4);
+}
+
+.cta-button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 15px rgba(52, 211, 153, 0.5);
+}
+
+/* Rodapé */
+.main-footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  margin-top: 2rem;
+  color: var(--secondary-text-color);
+}
+
+/* --- Responsividade --- */
+
+@media (max-width: 768px) {
+  /* Mostra o botão hambúrguer e esconde o menu de desktop */
+  .hamburger-button {
+    display: block;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; 
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    padding-top: 6rem;
+    background-color: var(--card-background);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    display: block;
+  }
+
+  .nav-menu.is-active {
+    right: 0; /* Menu entra na tela */
+  }
+
+  .nav-links {
+    flex-direction: column; 
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+  }
+
+  .hero-text h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-nav {
+    flex-wrap: nowrap;
+  }
+
+  .hero-text h2 {
+    font-size: 1.8rem;
+  }
+  .cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+}
