@@ -1,164 +1,200 @@
+// Espera o carregamento completo do HTML antes de rodar o script.
 document.addEventListener("DOMContentLoaded", () => {
-  // Lista de respostas corretas para cada questão
-  const correctAnswers = {
-    q1: "main",
-    q2: ["var", "let", "const"],
-    q3: "color",
-  };
-
-  // Estrutura inicial do progresso (tentativas e status de cada questão)
-  const defaultProgress = {
-    q1: { attempts: 3, solved: false },
-    q2: { attempts: 3, solved: false },
-    q3: { attempts: 3, solved: false },
-  };
-
-  // Carrega progresso do localStorage, ou usa o padrão se não houver
-  let progress =
-    JSON.parse(localStorage.getItem("exerciseProgress")) || defaultProgress;
-
-  const forms = document.querySelectorAll(".exercise-form");
+  const quizContainer = document.getElementById("quiz-container");
   const scoreElement = document.getElementById("final-score");
 
+  // Objeto que armazena as respostas corretas e progresso do usuário.
+  let correctAnswers = {};
+  let userProgress = {};
+
   /**
-   * Salva o progresso atual do usuário no localStorage.
-   * Garante que os dados persistam mesmo após atualizar ou fechar a página.
+   * Inicia o quiz:
+   * - Busca as perguntas de um arquivo JSON.
+   * - Prepara os dados do quiz (respostas corretas e progresso do usuário).
+   * - Renderiza a interface do quiz.
+   *
+   * @async
+   * @function startQuiz
+   * @returns {Promise<void>} Nada é retornado diretamente, apenas atualiza a interface.
    */
-  function saveProgress() {
-    localStorage.setItem("exerciseProgress", JSON.stringify(progress));
+  async function startQuiz() {
+    try {
+      const response = await fetch("../api/db.json");
+      const questions = await response.json();
+      prepareQuizData(questions);
+      renderQuizUI(questions);
+    } catch (error) {
+      quizContainer.innerHTML = "<p>Erro ao carregar o quiz. Tente novamente.</p>";
+      console.error("Falha ao buscar perguntas:", error);
+    }
   }
 
   /**
-   * Atualiza a interface com base no estado atual de cada questão.
-   * - Mostra tentativas restantes
-   * - Desativa botões quando necessário
-   * - Exibe feedback (correto/incorreto)
+   * Prepara os dados principais do quiz:
+   * - Define as respostas corretas de cada questão.
+   * - Inicializa (ou recupera) o progresso do usuário do LocalStorage.
+   *
+   * @function prepareQuizData
+   * @param {Array<Object>} questions - Lista de questões com id, enunciado e resposta correta.
    */
-  function renderUI() {
-    forms.forEach((form) => {
-      const questionId = form.id;
-      const state = progress[questionId];
-
-      // Atualiza visualmente o contador de tentativas
-      form.querySelector(".attempts span").textContent = state.attempts;
-
-      const button = form.querySelector("button");
-      const feedbackEl = form.querySelector(".feedback");
-
-      // Se já resolveu a questão
-      if (state.solved) {
-        button.disabled = true;
-        feedbackEl.textContent = "Correto!";
-        feedbackEl.className = "feedback correct";
-      }
-      // Se acabou as tentativas
-      else if (state.attempts === 0) {
-        button.disabled = true;
-        const correctAnswer = Array.isArray(correctAnswers[questionId])
-          ? correctAnswers[questionId].join(", ")
-          : correctAnswers[questionId];
-        feedbackEl.textContent = `Suas tentativas acabaram. A resposta correta é: ${correctAnswer}.`;
-        feedbackEl.className = "feedback incorrect";
-      }
+  function prepareQuizData(questions) {
+    const defaultProgress = {};
+    questions.forEach(q => {
+      correctAnswers[q.id] = q.answer;
+      defaultProgress[q.id] = { attempts: 3, solved: false };
     });
-    updateFinalScore();
+    userProgress = JSON.parse(localStorage.getItem("exerciseProgress")) || defaultProgress;
   }
 
   /**
-   * Lida com o envio de cada formulário (questão respondida).
-   * - Valida a resposta do usuário
-   * - Atualiza tentativas
-   * - Exibe feedback imediato
-   * - Salva progresso atualizado
-   * @param {Event} event - O evento de submit do formulário
+   * Renderiza toda a interface do quiz na tela:
+   * - Cria formulários para cada questão.
+   * - Associa os eventos de envio de resposta.
+   *
+   * @function renderQuizUI
+   * @param {Array<Object>} questions - Lista de questões do quiz.
    */
-  function handleFormSubmit(event) {
+  function renderQuizUI(questions) {
+    let quizHTML = "";
+    questions.forEach((q, index) => {
+      quizHTML += `
+        <form id="${q.id}" class="exercise-form">
+          <fieldset>
+            <legend>${index + 1}. ${q.question}</legend>
+            <div class="options">${createOptionsHtml(q)}</div>
+            <button type="submit">Responder</button>
+            <div class="feedback"></div>
+            <div class="attempts">Tentativas restantes: <span>3</span></div>
+          </fieldset>
+        </form>
+      `;
+    });
+    quizContainer.innerHTML = quizHTML;
+
+    quizContainer.querySelectorAll(".exercise-form").forEach(form => {
+      form.addEventListener("submit", handleSubmission);
+    });
+
+    updateUI();
+  }
+
+  /**
+   * Cria o HTML das opções de resposta (radio, checkbox ou select).
+   *
+   * @function createOptionsHtml
+   * @param {Object} question - Questão atual com tipo e opções.
+   * @param {string} question.type - Tipo de input: "radio", "checkbox" ou "select".
+   * @param {string} question.id - Identificador único da questão.
+   * @param {Array<string>} question.options - Opções de resposta.
+   * @returns {string} HTML gerado para as opções.
+   */
+  function createOptionsHtml(question) {
+    const { type, id, options } = question;
+    if (type === "radio" || type === "checkbox") {
+      return options.map(opt => `<label><input type="${type}" name="${id}" value="${opt}" /> ${opt}</label>`).join('');
+    }
+    if (type === "select") {
+      const optionElements = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+      return `<select name="${id}" class="combobox"><option value="">Selecione uma opção</option>${optionElements}</select>`;
+    }
+    return '';
+  }
+
+  /**
+   * Trata o envio de uma resposta pelo usuário:
+   * - Verifica se a resposta está correta.
+   * - Atualiza tentativas e progresso.
+   * - Dá feedback visual imediato.
+   *
+   * @function handleSubmission
+   * @param {Event} event - Evento de envio do formulário.
+   */
+  function handleSubmission(event) {
     event.preventDefault();
     const form = event.target;
     const questionId = form.id;
-    const state = progress[questionId];
+    const state = userProgress[questionId];
 
-    // Se não há tentativas ou a questão já foi resolvida, não faz nada
-    if (state.attempts === 0 || state.solved) return;
+    if (state.solved || state.attempts === 0) return;
 
-    // Verifica a resposta do usuário
     let isCorrect = false;
-    if (questionId === "q1") {
-      const selectedRadio = form.querySelector(`[name="q1"]:checked`);
-      if (selectedRadio) {
-        isCorrect = selectedRadio.value === correctAnswers.q1;
-      }
-    } else if (questionId === "q2") {
-      const userAnswers = Array.from(
-        form.querySelectorAll(`[name="q2"]:checked`)
-      ).map((cb) => cb.value);
+    const correctAnswer = correctAnswers[questionId];
+    const inputType = form.querySelector('[name]').type;
 
-      const correct = correctAnswers.q2;
-      // Checa se o usuário marcou exatamente todas as opções corretas
-      isCorrect =
-        userAnswers.length === correct.length &&
-        userAnswers.every((answer) => correct.includes(answer));
-    } else if (questionId === "q3") {
-      const selectedValue = form.querySelector(`[name="q3"]`).value;
-      isCorrect = selectedValue === correctAnswers.q3;
+    if (inputType === 'radio') {
+      const selected = form.querySelector(`[name="${questionId}"]:checked`);
+      if (selected) isCorrect = selected.value === correctAnswer;
+    } else if (inputType === 'checkbox') {
+      const selected = Array.from(form.querySelectorAll(`[name="${questionId}"]:checked`)).map(cb => cb.value);
+      isCorrect = selected.length === correctAnswer.length && selected.every(val => correctAnswer.includes(val));
+    } else if (inputType === 'select-one') {
+      const selectedValue = form.querySelector(`select[name="${questionId}"]`).value;
+      isCorrect = selectedValue === correctAnswer;
     }
-
-    const feedbackEl = form.querySelector(".feedback");
-    const button = form.querySelector("button");
 
     if (isCorrect) {
       state.solved = true;
-      feedbackEl.textContent = "Correto!";
-      feedbackEl.className = "feedback correct";
-      button.disabled = true;
     } else {
       state.attempts--;
-      if (state.attempts > 0) {
-        feedbackEl.textContent = "Incorreto. Tente novamente.";
-        feedbackEl.className = "feedback incorrect";
-      } else {
-        // Se esgotou todas as tentativas
-        const correctAnswer = Array.isArray(correctAnswers[questionId])
-          ? correctAnswers[questionId].join(", ")
-          : correctAnswers[questionId];
-        feedbackEl.textContent = `Suas tentativas acabaram. A resposta correta é: ${correctAnswer}.`;
-        feedbackEl.className = "feedback incorrect";
-        button.disabled = true;
-      }
+      const feedbackEl = form.querySelector(".feedback");
+      feedbackEl.textContent = "Incorreto. Tente novamente.";
+      feedbackEl.className = "feedback incorrect";
     }
 
-    // Atualiza contador visual, salva progresso e pontuação
-    form.querySelector(".attempts span").textContent = state.attempts;
-    saveProgress();
-    updateFinalScore();
+    localStorage.setItem("exerciseProgress", JSON.stringify(userProgress));
+    updateUI();
   }
 
   /**
-   * Calcula a pontuação final e exibe ao usuário.
-   * - Conta quantas questões foram resolvidas
-   * - Só mostra quando todas foram tentadas ou resolvidas
+   * Atualiza a interface do quiz:
+   * - Mostra tentativas restantes.
+   * - Exibe mensagens de feedback (correto/incorreto).
+   * - Desativa botões quando necessário.
+   *
+   * @function updateUI
    */
-  function updateFinalScore() {
-    const totalQuestions = Object.keys(progress).length;
-    const solvedQuestions = Object.values(progress).filter(
-      (q) => q.solved
-    ).length;
+  function updateUI() {
+    quizContainer.querySelectorAll(".exercise-form").forEach(form => {
+      const questionId = form.id;
+      const state = userProgress[questionId];
+      const feedbackEl = form.querySelector(".feedback");
+      const button = form.querySelector("button");
 
-    const allAttempted = Object.values(progress).every(
-      (q) => q.solved || q.attempts === 0
-    );
+      form.querySelector(".attempts span").textContent = state.attempts;
 
-    if (allAttempted) {
-      scoreElement.textContent = `Sua pontuação final: ${solvedQuestions} de ${totalQuestions} corretas.`;
+      if (state.solved) {
+        feedbackEl.textContent = "Correto!";
+        feedbackEl.className = "feedback correct";
+        button.disabled = true;
+      } else if (state.attempts === 0) {
+        const answerText = Array.isArray(correctAnswers[questionId]) ? correctAnswers[questionId].join(", ") : correctAnswers[questionId];
+        feedbackEl.textContent = `A resposta correta é: ${answerText}.`;
+        feedbackEl.className = "feedback incorrect";
+        button.disabled = true;
+      }
+    });
+
+    showFinalScoreIfNeeded();
+  }
+
+  /**
+   * Mostra a pontuação final caso todas as questões tenham acabado:
+   * - O quiz é considerado encerrado se todas foram resolvidas ou esgotaram tentativas.
+   *
+   * @function showFinalScoreIfNeeded
+   */
+  function showFinalScoreIfNeeded() {
+    const allQuestionsFinished = Object.values(userProgress).every(state => state.solved || state.attempts === 0);
+
+    if (allQuestionsFinished) {
+      const totalQuestions = Object.keys(userProgress).length;
+      const solvedCount = Object.values(userProgress).filter(state => state.solved).length;
+
+      scoreElement.textContent = `Sua pontuação final: ${solvedCount} de ${totalQuestions} corretas.`;
       scoreElement.style.display = "block";
     }
   }
 
-  // Adiciona o listener de envio a cada formulário
-  forms.forEach((form) => {
-    form.addEventListener("submit", handleFormSubmit);
-  });
-
-  // Renderiza o estado inicial ao carregar a página
-  renderUI();
+  // Chamada inicial para começar o quiz.
+  startQuiz();
 });

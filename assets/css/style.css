@@ -252,6 +252,7 @@ body {
   margin-bottom: 2.5rem;
   box-shadow: var(--card-shadow);
   transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
 }
 .exercise-form:hover {
   transform: translateY(-5px);
