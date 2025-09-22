@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercícios</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <nav class="main-nav">
+        <div class="nav-brand">
+          <h1>Playlist Temática</h1>
+        </div>
+
+        <div class="nav-menu">
+          <ul class="nav-links">
+            <li><a href="../index.html" class="active">Início</a></li>
+            <li><a href="./course.html">Curso</a></li>
+            <li><a href="./exercises.html">Exercícios</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-controls">
+          <button id="toggle-theme" class="theme-btn">🌙</button>
+          <button
+            class="hamburger-button"
+            id="hamburger-button"
+            aria-label="Abrir menu"
+          >
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <section class="exercises-section">
+        <h2>Teste seus Conhecimentos</h2>
+        <p>Responda as questões abaixo sobre conceitos de front-end.</p>
+        <div id="final-score" class="final-score"></div>
+
+        <form id="q1" class="exercise-form">
+          <fieldset>
+            <legend>
+              1. Qual tag HTML é usada para definir o conteúdo principal de um
+              documento, garantindo maior semântica?
+            </legend>
+            <div class="options">
+              <label><input type="radio" name="q1" value="div" /> div </label>
+              <label
+                ><input type="radio" name="q1" value="section" /> section
+              </label>
+              <label><input type="radio" name="q1" value="main" /> main </label>
+              <label><input type="radio" name="q1" value="body" /> body </label>
+            </div>
+            <button type="submit">Responder</button>
+            <div class="feedback"></div>
+            <div class="attempts">Tentativas restantes: <span>3</span></div>
+          </fieldset>
+        </form>
+
+        <form id="q2" class="exercise-form">
+          <fieldset>
+            <legend>
+              2. Quais das seguintes opções são formas válidas de declarar uma
+              variável em JavaScript?
+            </legend>
+            <div class="options">
+              <label
+                ><input type="checkbox" name="q2" value="var" /> var
+              </label>
+              <label
+                ><input type="checkbox" name="q2" value="let" /> let
+              </label>
+              <label
+                ><input type="checkbox" name="q2" value="const" /> const
+              </label>
+              <label
+                ><input type="checkbox" name="q2" value="def" /> def
+              </label>
+            </div>
+            <button type="submit">Responder</button>
+            <div class="feedback"></div>
+            <div class="attempts">Tentativas restantes: <span>3</span></div>
+          </fieldset>
+        </form>
+
+        <form id="q3" class="exercise-form">
+          <fieldset>
+            <legend>
+              3. Qual propriedade CSS é usada para alterar a cor do texto de um
+              elemento?
+            </legend>
+            <select name="q3" class="combobox">
+              <option value="">Selecione uma opção</option>
+              <option value="background-color">background-color</option>
+              <option value="font-size">font-size</option>
+              <option value="color">color</option>
+              <option value="text-align">text-align</option>
+            </select>
+            <button type="submit">Responder</button>
+            <div class="feedback"></div>
+            <div class="attempts">Tentativas restantes: <span>3</span></div>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+
+    <footer class="main-footer">
+      <p>&copy; 2025 - Curso Spotify.</p>
+    </footer>
+
+    <script src="../assets/js/theme.js"></script>
+    <script src="../assets/js/exercises.js"></script>
+  </body>
+</html>
