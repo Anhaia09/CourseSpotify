@@ -1,0 +1,23 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual tag HTML é usada para definir o conteúdo principal de um documento, garantindo maior semântica?",
+    "type": "radio",
+    "options": ["div", "section", "main", "body"],
+    "answer": "main"
+  },
+  {
+    "id": "q2",
+    "question": "Quais das seguintes opções são formas válidas de declarar uma variável em JavaScript?",
+    "type": "checkbox",
+    "options": ["var", "let", "const", "def"],
+    "answer": ["var", "let", "const"]
+  },
+  {
+    "id": "q3",
+    "question": "Qual propriedade CSS é usada para alterar a cor do texto de um elemento?",
+    "type": "select",
+    "options": ["background-color", "font-size", "color", "text-align"],
+    "answer": "color"
+  }
+]

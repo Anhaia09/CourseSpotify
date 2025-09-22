@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Curso: Playlist Temática no Spotify</title>
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Exercícios</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <header class="main-header">
@@ -18,15 +25,14 @@
 
         <div class="nav-menu">
           <ul class="nav-links">
-            <li><a href="index.html" class="active">Início</a></li>
-            <li><a href="./pages/course.html">Curso</a></li>
-            <li><a href="./pages/exercises.html">Exercícios</a></li>
+            <li><a href="../index.html" class="active">Início</a></li>
+            <li><a href="./course.html">Curso</a></li>
+            <li><a href="./exercises.html">Exercícios</a></li>
           </ul>
         </div>
 
         <div class="nav-controls">
           <button id="toggle-theme" class="theme-btn">🌙</button>
-
           <button
             class="hamburger-button"
             id="hamburger-button"
@@ -39,14 +45,15 @@
         </div>
       </nav>
     </header>
-    <main class="main-content hero-section">
-      <section class="hero-text">
-        <h2>Aprenda a criar a playlist perfeita para cada momento</h2>
-        <p>
-          Transforme suas ideias em playlists temáticas e irresistíveis no Spotify, de forma rápida e prática.
-        </p>
-        <img src="./assets/images/user.webp" alt="mulher escutando musica" class="image">
-        <a href="./pages/course.html" class="cta-button">Começar agora!</a>
+
+    <main class="main-content">
+      <section class="exercises-section">
+        <h2>Teste seus Conhecimentos</h2>
+        <p>Responda as questões abaixo sobre conceitos de front-end.</p>
+
+        <div id="quiz-container"></div>
+
+        <div id="final-score" class="final-score"></div>
       </section>
     </main>
 
@@ -54,7 +61,8 @@
       <p>&copy; 2025 - Curso Spotify.</p>
     </footer>
 
-    <script src="./assets/js/theme.js"></script>
-    <script src="./assets/js/mobile-nav.js"></script>
+    <script src="../assets/js/theme.js"></script>
+    <script src="../assets/js/exercises.js"></script>
+    <script src="../assets/js/mobile-nav.js"></script>
   </body>
 </html>

@@ -1,7 +1,7 @@
-/* Importação da Fonte */
+/* --- Importação da Fonte --- */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
-/* Variáveis de Cores (Tema Claro) */
+/* --- Variáveis de Cores (Tema Claro) --- */
 :root {
   --primary-color: #1e3a8a;
   --accent-color: #34d399; 
@@ -14,7 +14,7 @@
   --card-hover-shadow: 0 7px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* Tema Escuro */
+/* --- Tema Escuro --- */
 .dark-theme {
   --primary-color: #34d399; 
   --accent-color: #1e3a8a; 
@@ -27,7 +27,7 @@
   --card-hover-shadow: 0 7px 15px rgba(0, 0, 0, 0.25);
 }
 
-/* Reset Básico e Estilos Globais */
+/* --- Reset Básico e Estilos Globais --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -42,7 +42,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Cabeçalho e Navegação */
+/* --- Cabeçalho e Navegação --- */
 .main-header {
   background-color: var(--card-background);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -63,7 +63,7 @@ body {
   font-size: 1.5rem;
 }
 
-/* Container do menu desktop */
+/*  --- Container do menu desktop --- */
 .nav-menu {
   display: flex;
 }
@@ -87,14 +87,14 @@ body {
   color: var(--primary-color);
 }
 
-/* Controles da direita (tema e hambúrguer) */
+/* --- Controles da direita (tema e hambúrguer) --- */
 .nav-controls {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* Estilos do Botão de Tema com Ícones */
+/* --- Estilos do Botão de Tema com Ícones --- */
 .theme-btn {
   background: var(--primary-color);
   color: white;
@@ -110,7 +110,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* Estilos do Menu Hambúrguer */
+/*  --- Estilos do Menu Hambúrguer --- */
 .hamburger-button {
   display: none; 
   background: none;
@@ -145,7 +145,7 @@ body {
   bottom: 0;
 }
 
-/* Animação do botão para "X" quando ativo */
+/* --- Animação do botão para "X" quando ativo --- */
 .hamburger-button.is-active .hamburger-line:nth-child(1) {
   transform: translateY(10px) rotate(45deg);
 }
@@ -156,17 +156,17 @@ body {
   transform: translateY(-11px) rotate(-45deg);
 }
 
-/* Conteúdo Principal */
+/* --- Conteúdo Principal --- */
 .main-content {
   max-width: 900px;
   margin: 2rem auto;
   padding: 0 1.5rem;
 }
 
-/* Seção Hero (Página Inicial) */
+/* --- Seção Hero (Página Inicial) --- */
 .hero-section {
   text-align: center;
-  padding: 4rem 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 .hero-text h2 {
@@ -179,6 +179,25 @@ body {
   font-size: 1.1rem;
   margin-bottom: 2rem;
 }
+
+.image {
+  max-width: 350px;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin: 2rem auto;
+  display: block;
+  padding: 6px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
 
 .cta-button {
   background-color: var(--accent-color);
@@ -196,7 +215,7 @@ body {
   box-shadow: 0 6px 15px rgba(52, 211, 153, 0.5);
 }
 
-/* Página de Curso */
+/*  --- Página de Curso --- */
 .course-content h2 {
   text-align: center;
   margin-bottom: 2rem;
@@ -213,21 +232,132 @@ body {
   margin-top: 20px;
 }
 
-.optimized-image {
-  max-width: 30%;
-  height: auto;
-  border-radius: 8px;
-  margin-top: 1rem;
-  margin: 1rem auto; /* auto centraliza horizontalmente */
-  display: block; /* transforma img em bloco */
-}
-
 .navigation-buttons {
   text-align: center;
   margin-top: 4rem;
 }
 
-/* Rodapé */
+/*  --- Página de Exercícios --- */
+.exercises-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.exercise-form {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
+}
+.exercise-form:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.exercise-form fieldset {
+  border: none;
+}
+
+.exercise-form legend {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.options label:hover {
+  border-color: var(--primary-color);
+}
+[dark-theme="dark"] .options label:hover {
+  background-color: rgba(52, 211, 153, 0.1);
+}
+
+.options input {
+  margin-right: 0.5rem;
+  accent-color: var(--primary-color);
+}
+
+.combobox {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.exercise-form button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.exercise-form button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.exercise-form button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.feedback {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.feedback.correct {
+  color: #10b981;
+}
+.feedback.incorrect {
+  color: #ef4444;
+}
+
+.attempts {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+}
+
+.final-score {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--accent-color);
+  color: #fff;
+  border-radius: 8px;
+  display: none;
+}
+
+/*  --- Rodapé --- */
 .main-footer {
   text-align: center;
   padding: 2rem 1.5rem;
@@ -287,6 +417,9 @@ body {
   .cta-button {
     padding: 0.7rem 1.5rem;
     font-size: 0.9rem;
+  }
+  .exercise-form {
+    padding: 1.5rem;
   }
   
 }
